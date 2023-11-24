@@ -225,7 +225,6 @@ class RobotMain(object):
         # enviar posición 
         time.sleep(1)
         # Recibir señal de finalizar del PLC
-        on_send(ws,5,3,3,2,"MOVE")
         while self.is_alive and self._vars.get('PLC_Stop_Position', 0) == 0:
             # Lectura de señal de finalizar del PLC
             print("Esperando señal de finalizar movimiento de stepper del PLC")
