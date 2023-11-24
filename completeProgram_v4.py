@@ -70,6 +70,7 @@ def on_message(ws, message):
         print("Motor encendido")
     elif Action =="MOVED":
         robot_main._vars['Off_Home'] = 1 #step
+        robot_main._vars['PLC_Stop_Position'] = 1 #step
 
 
 def on_error(ws, error):
@@ -224,6 +225,12 @@ class RobotMain(object):
         """
         # Enviar PLC_Run_position al PLC
         self._vars['PLC_Run_Position'] = 1
+        on_send(ws,
+                self._vars.get('type', 0),
+                self._vars.get('position', 0),
+                self._vars.get('level', 0),
+                self._vars.get('shelf', 0),
+                "MOVE")
         print("Se envió Señal Run_position al PLC{}".format(self._vars.get('On_Home', 0)))
         # enviar posición 
         time.sleep(1)
@@ -304,6 +311,7 @@ class RobotMain(object):
                 1,
                 1,
                 "MOVE")
+        
         time.sleep(1)
         while self.is_alive and self._vars.get('Off_Home', 0) == 0:
             # Lectura de señal de finalizar del PLC
