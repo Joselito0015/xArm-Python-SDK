@@ -225,12 +225,13 @@ class RobotMain(object):
         """
         # Enviar PLC_Run_position al PLC
         self._vars['PLC_Run_Position'] = 1
-        on_send(ws,
-                self._vars.get('type', 0),
-                self._vars.get('position', 0),
-                self._vars.get('level', 0),
-                self._vars.get('shelf', 0),
-                "MOVE")
+        # on_send(ws,
+        #         self._vars.get('type', 0),
+        #         self._vars.get('position', 0),
+        #         self._vars.get('level', 0),
+        #         self._vars.get('shelf', 0),
+        #         "MOVE")
+        
         print("Se envió Señal Run_position al PLC{}".format(self._vars.get('On_Home', 0)))
         # enviar posición 
         time.sleep(1)
@@ -301,7 +302,7 @@ class RobotMain(object):
         Funcion_Home: 
         """
         # Enviar On_Home al PLC
-        # self._vars['On_Home'] = 1
+        self._vars['On_Home'] = 1
         print("Se envió Señal On_Home  a PLC{}".format(self._vars.get('On_Home', 0)))
         # enviar posición al websocket
         HOME=1
