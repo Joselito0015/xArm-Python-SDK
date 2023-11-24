@@ -142,8 +142,7 @@ class RobotMain(object):
         }
         self._robot_init()
         time.sleep(10)
-        on_send(ws,5,3,3,2,"MOVE")
-        print("Mensaje enviado")
+
     # Robot init
     def _robot_init(self):
         self._arm.clean_warn()
@@ -226,6 +225,7 @@ class RobotMain(object):
         # enviar posición 
         time.sleep(1)
         # Recibir señal de finalizar del PLC
+        on_send(ws,5,3,3,2,"MOVE")
         while self.is_alive and self._vars.get('PLC_Stop_Position', 0) == 0:
             # Lectura de señal de finalizar del PLC
             print("Esperando señal de finalizar movimiento de stepper del PLC")
@@ -391,6 +391,7 @@ class RobotMain(object):
                     # self._vars['Request_flag'] = True
                     # print("se recibio{}".format(self._vars.get('Request_flag', 0)))
                     # self._vars['Request'] = 2
+                    
                     if self._vars.get('Request_flag', 0):
                         if self._vars.get('Request', 0) == 1:
                             # Almacenar
