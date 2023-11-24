@@ -100,19 +100,24 @@ def on_send(ws,type,X,Y,Almacen,action):
     ws.send(json_payload)
 
 
-def start_websocket():
+def start_websocket(ws):
     websocket.enableTrace(False)  # Esto permite ver información de depuración
-    
-    # Reemplaza 'wss://echo.websocket.org' con la URL del servidor WebSocket al que te quieres conectar
-    ws = websocket.WebSocketApp("ws://localhost:1880/ws/master",
-                                on_message=on_message,
-                                on_error=on_error,
-                                on_close=on_close)
-    ws.on_open = on_open
+    time.sleep(5)
     ws.run_forever()
 
+
+    
+# Reemplaza 'wss://echo.websocket.org' con la URL del servidor WebSocket al que te quieres conectar
+ws = websocket.WebSocketApp("ws://localhost:1880/ws/master",
+                            on_message=on_message,
+                            on_error=on_error,
+                            on_close=on_close,
+                            
+                            )
+ws.on_open = on_open
+
 # Inicia el cliente WebSocket en un hilo separado para que no bloquee la ejecución del programa principal
-websocket_thread = threading.Thread(target=start_websocket)
+websocket_thread = threading.Thread(target=start_websocket, args=(ws,))
 websocket_thread.start()
 
 
@@ -136,7 +141,8 @@ class RobotMain(object):
             "Funcion_Home": self.function_3,
         }
         self._robot_init()
-        
+        on_send(ws,5,3,3,2,"MOVE")
+        print("Mensaje enviado")
     # Robot init
     def _robot_init(self):
         self._arm.clean_warn()
