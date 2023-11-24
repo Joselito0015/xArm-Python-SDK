@@ -83,7 +83,7 @@ def on_close(ws):
 def on_open(ws):
     print("Conexión abierta")
 
-def on_send(ws,type,X,Y,Almacen,action):
+def on_send(ws,type,X,Y,Almacen,action,status="waiting"):
     print("Conexión abierta")
     # Puedes enviar un mensaje apenas se establezca la conexión
     payload={
@@ -91,8 +91,8 @@ def on_send(ws,type,X,Y,Almacen,action):
         "desired": {
         "action": action, #MOVE|DONE
         "type":type,
-        "status": "waiting",
-        "Almacen": Almacen, #Almacen 1|2
+        "status": status,
+        "Almacen": Almacen , #Almacen 1|2
         "X": X,
         "Y":Y
             }
@@ -225,12 +225,12 @@ class RobotMain(object):
         """
         # Enviar PLC_Run_position al PLC
         self._vars['PLC_Run_Position'] = 1
-        # on_send(ws,
-        #         self._vars.get('type', 0),
-        #         self._vars.get('position', 0),
-        #         self._vars.get('level', 0),
-        #         self._vars.get('shelf', 0),
-        #         "MOVE")
+        on_send(ws,
+                self._vars.get('type', 0),
+                self._vars.get('position', 0),
+                self._vars.get('level', 0),
+                self._vars.get('shelf', 0),
+                "MOVE")
         
         print("Se envió Señal Run_position al PLC{}".format(self._vars.get('On_Home', 0)))
         # enviar posición 
@@ -521,6 +521,13 @@ class RobotMain(object):
                                 self.function_3()
                             self._vars['Request_flag'] = False
                             print("Lectura final de petición Almacenamiento {}".format(self._vars.get('Request_flag', 0)))
+                            on_send(ws,
+                            self._vars.get('type', 0),
+                            self._vars.get('position', 0),
+                            self._vars.get('level', 0),
+                            self._vars.get('shelf', 0),
+                            "almacenar",
+                            status="DONE")
                         elif self._vars.get('Request', 0) == 2:
                             # Retiro
                             for i in range(int(1)):
