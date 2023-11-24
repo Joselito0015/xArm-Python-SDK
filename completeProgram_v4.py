@@ -141,6 +141,7 @@ class RobotMain(object):
             "Funcion_Home": self.function_3,
         }
         self._robot_init()
+        time.sleep(10)
         on_send(ws,5,3,3,2,"MOVE")
         print("Mensaje enviado")
     # Robot init
