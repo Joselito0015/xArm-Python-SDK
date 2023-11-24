@@ -43,11 +43,12 @@ def on_message(ws, message):
         x=Parameters["X"]
         y=Parameters["Y"]
         Almacen=Parameters["Almacen"]
-        #tipo=Parameters["type"]
+        type=Parameters["type"]
 
         robot_main._vars['level'] = int(y)
         robot_main._vars['shelf'] = int(Almacen)
         robot_main._vars['position'] = int(x)
+        robot_main._vars['type'] = int(type)
 
         if Action == "almacenar":
             robot_main._vars['Request'] = 1 #step
@@ -55,7 +56,7 @@ def on_message(ws, message):
             robot_main._vars['Request'] = 2 #step
 
         robot_main._vars['Request_flag'] = 1 #step
-    
+
 
 
         print(x,y,Action,Almacen)
@@ -67,6 +68,8 @@ def on_message(ws, message):
         robot_main._vars['Off_Home'] = 1 #step
         
         print("Motor encendido")
+    elif Action =="MOVED":
+        robot_main._vars['Off_Home'] = 1 #step
 
 
 def on_error(ws, error):
@@ -288,11 +291,19 @@ class RobotMain(object):
 
     def function_3(self):
         """
-        Funcion_Home
+        Funcion_Home: 
         """
         # Enviar On_Home al PLC
         # self._vars['On_Home'] = 1
         print("Se envió Señal On_Home  a PLC{}".format(self._vars.get('On_Home', 0)))
+        # enviar posición al websocket
+        HOME=1
+        on_send(ws,
+                "-",
+                HOME,
+                1,
+                1,
+                "MOVE")
         time.sleep(1)
         while self.is_alive and self._vars.get('Off_Home', 0) == 0:
             # Lectura de señal de finalizar del PLC
@@ -598,8 +609,16 @@ class RobotMain(object):
                                     return
                                 time.sleep(1)
                                 print("Robot en posición Cero")
+                        #REINICIAMOS VARIABLES
                         self._vars['Request_flag'] = False
+                    
                     print("Lectura final de petición {}".format(self._vars.get('Request_flag', 0)))
+                    #REINICIAMOS VARIABLES
+                        #Regresamos a home
+                    self.function_3()
+                    
+
+
                     # Apagar Sistema
                     self._vars['Off_Flag'] = False
                     if self._vars.get('Off_Flag', 0):
