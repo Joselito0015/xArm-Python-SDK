@@ -509,6 +509,7 @@ class RobotMain(object):
                                         return
                                     time.sleep(2)
                                     print("Robot en posición Cero")
+                                self.function_3()
                             self._vars['Request_flag'] = False
                             print("Lectura final de petición Almacenamiento {}".format(self._vars.get('Request_flag', 0)))
                         elif self._vars.get('Request', 0) == 2:
@@ -609,13 +610,14 @@ class RobotMain(object):
                                     return
                                 time.sleep(1)
                                 print("Robot en posición Cero")
+                            self.function_3()
                         #REINICIAMOS VARIABLES
                         self._vars['Request_flag'] = False
                     
                     print("Lectura final de petición {}".format(self._vars.get('Request_flag', 0)))
                     #REINICIAMOS VARIABLES
                         #Regresamos a home
-                    self.function_3()
+                    
                     
 
 
