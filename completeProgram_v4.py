@@ -248,7 +248,7 @@ class RobotMain(object):
         """
         POS_Zero
         """
-        code = self._arm.set_position(*[207,0,112,180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+        code = self._arm.set_position(*[207,0,112,180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
         if not self._check_code(code, 'set_position'):
             return
         print("posicion cero")
@@ -263,12 +263,12 @@ class RobotMain(object):
             if self._vars.get('shelf', 0) == 1:
                 # Estante derecho
                 self._vars['p_y'] = -207
-                self._vars['p_yaw'] = -135
+                self._vars['p_yaw'] = -90
                 self._vars['deep_l'] = -101
             elif self._vars.get('shelf', 0) == 2:
                 # Estante izquierdo
                 self._vars['p_y'] = 207
-                self._vars['p_yaw'] = 135
+                self._vars['p_yaw'] = 90
                 self._vars['deep_l'] = 101
             else:
                 self._vars['p_y'] = 0
@@ -334,10 +334,10 @@ class RobotMain(object):
         """
         DepositarPallet
         """
-        code = self._arm.set_position(*[arg_1,arg_2,112,180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+        code = self._arm.set_position(*[arg_1,arg_2,112,180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
         if not self._check_code(code, 'set_position'):
             return
-        code = self._arm.set_position(*[arg_1,arg_2,arg_3,180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+        code = self._arm.set_position(*[arg_1,arg_2,arg_3,180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
         if not self._check_code(code, 'set_position'):
             return
         for i in range(int(1)):
@@ -347,7 +347,7 @@ class RobotMain(object):
             if not self._check_code(code, 'set_tgpio_digital'):
                 return
             time.sleep(3)
-        code = self._arm.set_position(*[arg_1,arg_2,(arg_3 + 40),180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+        code = self._arm.set_position(*[arg_1,arg_2,(arg_3 + 40),180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
         if not self._check_code(code, 'set_position'):
             return
         time.sleep(3)
@@ -362,10 +362,10 @@ class RobotMain(object):
         code = self._arm.set_tgpio_digital(0, 0, delay_sec=0)
         if not self._check_code(code, 'set_tgpio_digital'):
             return
-        code = self._arm.set_position(*[arg_1,arg_2,112,180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+        code = self._arm.set_position(*[arg_1,arg_2,112,180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
         if not self._check_code(code, 'set_position'):
             return
-        code = self._arm.set_position(*[arg_1,arg_2,arg_3,180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+        code = self._arm.set_position(*[arg_1,arg_2,arg_3,180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
         if not self._check_code(code, 'set_position'):
             return
         for i in range(int(1)):
@@ -383,9 +383,9 @@ class RobotMain(object):
                 if not self.is_alive:
                     break
                 # Inicializar variables
-                self._vars['x_Buffer'] = 207
+                self._vars['x_Buffer'] = 222
                 self._vars['y_Buffer'] = 0
-                self._vars['z_Buffer'] = 42
+                self._vars['z_Buffer'] = 48
                 self._vars['On_Home'] = 0
                 self._vars['Off_Home'] = 0
                 self._vars['p_x'] = 207
@@ -424,9 +424,9 @@ class RobotMain(object):
                                 for i in range(int(1)):
                                     if not self.is_alive:
                                         break
-                                    self._vars['x_Buffer'] = 207
+                                    self._vars['x_Buffer'] = 222
                                     self._vars['y_Buffer'] = 0
-                                    self._vars['z_Buffer'] = 42
+                                    self._vars['z_Buffer'] = 48
                                     self._vars['p_x'] = 207
                                     self._vars['p_y'] = 0
                                     self._vars['p_z'] = 112
@@ -482,7 +482,7 @@ class RobotMain(object):
                                     print("Estante:{}".format(self._vars.get('shelf', 0)))
                                     print("Posición del stepper:{}".format(self._vars.get('position', 0)))
                                     print("Nivel:{}".format(self._vars.get('level', 0)))
-                                    code = self._arm.set_position(*[207,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+                                    code = self._arm.set_position(*[207,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
                                     if not self._check_code(code, 'set_position'):
                                         return
                                     code = self._arm.set_position(*[self._vars.get('p_x', 0),self._vars.get('p_y', 0),self._vars.get('p_z', 0),180,0,self._vars.get('p_yaw', 0)], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
@@ -509,7 +509,7 @@ class RobotMain(object):
                                     code = self._arm.set_position(*[self._vars.get('p_x', 0),self._vars.get('p_y', 0),self._vars.get('p_z', 0),180,0,self._vars.get('p_yaw', 0)], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
                                     if not self._check_code(code, 'set_position'):
                                         return
-                                    code = self._arm.set_position(*[208,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+                                    code = self._arm.set_position(*[208,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
                                     if not self._check_code(code, 'set_position'):
                                         return
                                     # Posición Cero (Brazo)
@@ -533,13 +533,13 @@ class RobotMain(object):
                             for i in range(int(1)):
                                 if not self.is_alive:
                                     break
-                                self._vars['x_Buffer'] = 207
+                                self._vars['x_Buffer'] = 222
                                 self._vars['y_Buffer'] = 0
-                                self._vars['z_Buffer'] = 45.5
+                                self._vars['z_Buffer'] = 48
                                 self._vars['p_x'] = 207
                                 self._vars['p_y'] = 0
                                 self._vars['p_z'] = 112
-                                self._vars['p_yaw'] = 45
+                                self._vars['p_yaw'] = 0
 
                                 self._vars['PLC_Run_Position'] = 0
                                 code = self._arm.set_tgpio_digital(0, 0, delay_sec=0)
@@ -579,7 +579,7 @@ class RobotMain(object):
                                 print("posición seteada Y: {}".format(self._vars.get('p_y', 0)))
                                 print("posición seteada Z: {}".format(self._vars.get('p_z', 0)))
                                 print("posición seteada yaw: {}".format(self._vars.get('p_yaw', 0)))
-                                code = self._arm.set_position(*[207,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+                                code = self._arm.set_position(*[207,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
                                 if not self._check_code(code, 'set_position'):
                                     return
                                 code = self._arm.set_position(*[self._vars.get('p_x', 0),self._vars.get('p_y', 0),self._vars.get('p_z', 0),180,0,self._vars.get('p_yaw', 0)], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
@@ -604,7 +604,7 @@ class RobotMain(object):
                                 code = self._arm.set_position(*[self._vars.get('p_x', 0),self._vars.get('p_y', 0),self._vars.get('p_z', 0),180,0,self._vars.get('p_yaw', 0)], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
                                 if not self._check_code(code, 'set_position'):
                                     return
-                                code = self._arm.set_position(*[208,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,45], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
+                                code = self._arm.set_position(*[208,self._vars.get('p_x', 0),self._vars.get('p_z', 0),180,0,0], speed=self._tcp_speed, mvacc=self._tcp_acc, radius=-1, wait=True)
                                 if not self._check_code(code, 'set_position'):
                                     return
                                 # Posición Cero (Brazo)
